@@ -1,25 +1,39 @@
 <template>
   <div class="map">
-    <BasicMap @register="registerMap" @click="handleClick" />
+    <button @click="handleStart">开始绘制</button>
+    <button @click="handleEnd">结束绘制</button>
+    <BasicMap @register="registerMap" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { BasicMap, useMap } from "../components/BasicMap";
+import { CircleEditorReturnFnType } from "../components/BasicMap/src/types/map";
 
-const [registerMap, { addMarker, onMapLoaded }] = useMap({
+const [registerMap, { onMapLoaded, drawCircle }] = useMap({
   zoom: 12,
   center: [116.406315, 39.908775],
 });
 
-onMapLoaded((map) => {
-  console.log(map.value);
+let circleEditor: CircleEditorReturnFnType;
+onMapLoaded(() => {
+  circleEditor = drawCircle(
+    {
+      center: [116.406315, 39.908775],
+      strokeColor: "#234222",
+    },
+    {
+      end(c) {
+        console.log(c.getCenter());
+      },
+    }
+  );
 });
-
-function handleClick(e) {
-  addMarker({
-    position: [e.lnglat.lng, e.lnglat.lat],
-  });
+function handleStart() {
+  circleEditor?.open();
+}
+function handleEnd() {
+  circleEditor?.close();
 }
 </script>
 <style scoped>

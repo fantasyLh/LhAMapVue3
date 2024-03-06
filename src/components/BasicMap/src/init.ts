@@ -1,10 +1,12 @@
 import AMapLoader from "@amap/amap-jsapi-loader";
 import useMap from "./hooks/useMap";
 
+type AMapPluginsType = ["AMap.CircleEditor"];
+
 type MapLoaderOptions = {
   key: string; // 申请好的Web端开发者Key，首次调用 load 时必填
   version: string; // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-  plugins?: string[]; //插件列表
+  plugins?: AMapPluginsType; //插件列表
   // 是否加载 AMapUI，缺省不加载
   AMapUI?: {
     version?: string; // AMapUI 缺省 1.1

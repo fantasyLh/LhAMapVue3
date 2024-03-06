@@ -2,6 +2,7 @@ import type { Ref } from "vue";
 import { onUnmounted, shallowRef } from "vue";
 
 import type { MapCallback, UseMapReturnType } from "../types/map";
+import useCircleEditor from "./useCircleEditor";
 import useMarker from "./useMarker";
 
 function useMap(
@@ -29,12 +30,15 @@ function useMap(
     mapRef.value?.destroy();
   });
 
-  const { addMarker } = useMarker(mapRef);
+  const { addMarker, addTextMarker } = useMarker(mapRef);
+  const { drawCircle } = useCircleEditor(mapRef);
   return [
     register,
     {
       addMarker,
+      addTextMarker,
       onMapLoaded,
+      drawCircle,
     },
   ];
 }
